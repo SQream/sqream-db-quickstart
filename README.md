@@ -16,7 +16,7 @@ The rest of this guide assumes you're running SQream DB listening on local port 
 Stage the file in a readable directory, like `/temp`.
 ```bash
 $ mkdir -p /temp/ && cd $_
-$ curl -O https://github.com/arnons1/sqream-db-quickstart/raw/master/customers.csv
+$ curl -O https://arnons1.github.io/sqream-db-quickstart/customers.csv
 ```
 
 ## 2. Log into SQream DB
