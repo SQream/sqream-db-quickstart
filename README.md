@@ -34,6 +34,15 @@ master=>
 ```
 
 To exit the interactive client, use `\q` or <kbd>Ctrl</kbd>+<kbd>D</kbd>.
+If you make a mistake, use <kbd>Ctrl</kbd>+<kbd>C</kbd> to escape the current statement and clean the shell.
+
+Find the SQream DB version
+```sql
+master=> select show_version();
+v2.13
+1 row
+time: 0.073726s
+```
 
 ## 2. Create a new database for testing
 ```sql 
@@ -42,7 +51,8 @@ CREATE DATABASE test;
 
 Note: Each SQL statement must be terminated with a semicolon - <kbd>;</kbd>
 
-Upon successful creation, we will want to reconnect the client to this database. In the client, use the meta-command `\c test`. You can also re-start the client with the new `--database=test` argument.
+Now reconnect the client to this database. Use the meta-command `\c test`.
+You can also re-start the client with the new `--database=test` argument.
 
 If you successfuly connected to the database, you will see the `test=>` prompt, in place of the previous one.
 
@@ -148,4 +158,55 @@ time: 0.289319s
 ```
 
 Note:
-* We used positional arguments to group by and sort. `GROUP BY 1` is synonymous with `GROUP BY country`, while `ORDER BY 2` is synonymous with `ORDER BY avg_balance`
+* Using positional arguments to group by and sort helps brevity. `GROUP BY 1` is synonymous with `GROUP BY country`, while `ORDER BY 2` is synonymous with `ORDER BY avg_balance`
+
+## Monitor the SQream DB instance
+### List open SQream DB connections
+```sql
+test=> SELECT show_connections();
+192.168.0.186       ,13,2018-08-24 16:36:11 ,31,2018-08-24 16:36:11 ,  SELECT show_connections();                              
+192.168.0.186       ,6,2018-08-24 16:34:38 ,24,2018-08-24 16:34:38 ,   COPY customers (first_name,last_name,email,gender,country,balance) FROM '/temp/customers.csv' WITH offset 2;
+3 rows
+time: 0.089976s
+```
+Column order:
+* Connection host
+* Connection ID
+* Connection start time
+* Statement ID
+* Statement start time
+* Statement text
+
+### Show server status
+```sql
+test=> SELECT show_server_status();
+sqream,0,192.168.0.186,5000,test,sqream,192.168.0.186,39,SELECT show_server_status();,24-08-2018 16:45:06,Execute,24-08-2018 16:45:06
+1 row
+time: 0.118321s
+```
+
+Column order:
+* Service name
+* Instance ID
+* Connection ID
+* Server IP
+* Server port
+* Database name
+* Username
+* Client IP
+* Statement ID
+* Statement text
+* Statement start time
+* Statement status
+* Statement status start
+
+## Clean up
+Once you're done with your test, drop the test database.
+
+1. Switch to the `master` database from the client: `\c master`
+2. Drop the `test` database:
+```sql
+DROP DATABASE test;
+```
+You can now leave the client with `\q` or <kbd>Ctrl</kbd>+<kbd>D</kbd>.
+
