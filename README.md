@@ -48,17 +48,39 @@ If you successfuly connected to the database, you will see the `test=>` prompt, 
 
 ## 3. Create a sample table
 ```sql
-CREATE OR REPLACE TABLE customer (
-  first_name varchar(40) ,
-  last_name varchar(40) ,
-  email varchar(100) ,
-  city varchar(40) ,
-  country varchar(30) ,
-  start_date date
-  );
+CREATE OR REPLACE TABLE customers ( 
+   id         int IDENTITY (1,1), 
+   first_name varchar(40) , 
+   last_name  varchar(40) , 
+   email      varchar(100) , 
+   gender     varchar(6) , 
+   country    varchar(40) , 
+   balance DOUBLE );
 ```
 
-Note: The CSV we'll be loading down the line must match the table structure, including specific data types.
+Note: You may not be familiar with the `IDENTITY` syntax. We're telling the database to start this column with the number 1, and increment 1 for every new value. This is similar to an autoincrement keyword in other databases.
+
+Note: The CSV we'll be loading in the rest of this tutorial, `customers.csv`, must match the table structure, including specific data types.
 
 ## 4. Copy data into the table
+
+Let's peek at the CSV file we'll be loading.
+```bash
+$ head /temp/customers.csv
+first_name,last_name,email,gender,country,balance
+Dollie,Deackes,ddeackes0@godaddy.com,Female,Indonesia,1962.55
+Rhonda,Seiler,rseiler1@ezinearticles.com,Female,Greece,1911.38
+Rolland,Friel,rfriel2@w3.org,Male,Indonesia,1594.77
+Ruy,Sprey,rsprey3@webs.com,Male,Pakistan,1226.00
+Celestyna,Duffie,cduffie4@apple.com,Female,China,710.98
+Jonathan,Wyndham,jwyndham5@blogs.com,Male,France,1919.56
+Joelynn,Farryn,jfarryn6@sakura.ne.jp,Female,Poland,111.29
+```
+Before we load:
+* We note that this CSV actually has one less column than we defined. So, we must tell the database to fill in the `id` column (identity column) by itself.
+* We also note that this CSV has a header. We'll have to tell the database to skip this line, or the types will mismatch!
+
+```sql
+ COPY customers (first_name,last_name,email,gender,country,balance) FROM '/temp/customers.csv' WITH offset 2;
+```
 
