@@ -210,3 +210,23 @@ DROP DATABASE test;
 ```
 You can now leave the client with `\q` or <kbd>Ctrl</kbd>+<kbd>D</kbd>.
 
+## Summary and takeaways
+### Querying
+SQream DB has a built in interactive client shell which allows running statements and queries.
+
+### Data loading
+Data load is performed in two steps:
+1. Create a table, with schema that represents the files to be loaded into SQream DB
+2. Copy the data with the `COPY` command to the target table. 
+
+Things to notice:
+* Some CSVs contain a header row, which should be explicitly skipped-over with the `OFFSET` keyword
+* Some CSVs have alternative delimiters. See the <a href="http://docs.sqream.com/latest/manual/sql_reference.html#_copy_from_bulk_import">COPY .. FROM</a> syntax for more information on loading TSVs and other formats.
+* If the data doesn't match the destination table, SQream DB will fail the entire transaction
+
+## What's next?
+* Learn more about <a href="http://docs.sqream.com/latest/manual/sql_reference.html#_data_manipulation_language">SQream DB's DML commands like INSERT, COPY FROM, COPY TO, DELETE</a>
+* Learn more about the <a href="http://docs.sqream.com/latest/manual/sql_reference.html#_tables">SQream DB's TABLE syntax</a>, including <a href="http://docs.sqream.com/latest/manual/sql_reference.html#_external_tables">loading Parquet files via EXTERNAL TABLE syntax</a>.
+* <a href="https://sqream.com/product/client-drivers/">Download a client driver for your preferred language</a>, <a href="https://sqream.happyfox.com/kb/article/74-configuring-the-sql-workbench-client/">use SQL Workbench</a> or <a href="https://sqream.happyfox.com/kb/article/91-connecting-tableau-to-sqream-db/">Tableau with SQream DB</a>
+* <a href="https://github.com/SQream/SQream-Python-Connector">Build a Python app with SQream DB</a>
+* Read more about SQream DB, in "<a href="https://sqream.com/product/why-sqream-db/">Why SQream DB?</a>".
