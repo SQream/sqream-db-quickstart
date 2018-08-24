@@ -12,7 +12,14 @@ Make sure you have already installed SQream DB.
 
 The rest of this guide assumes you're running SQream DB listening on local port 5000
 
-## 1. Log into SQream DB
+## 1. Copy the CSV file to the SQream DB server
+Stage the file in a readable directory, like `/temp`.
+```bash
+$ mkdir -p /temp/ && cd $_
+$ curl -O https://github.com/arnons1/sqream-db-quickstart/raw/master/customers.csv
+```
+
+## 2. Log into SQream DB
 Open a terminal window and start ClientCmd at the command prompt:
 ```bash
 $ ClientCmd --username=<username> --password=<password> --database=<database>
@@ -44,7 +51,7 @@ v2.13
 time: 0.073726s
 ```
 
-## 2. Create a new database for testing
+## 3. Create a new database for testing
 ```sql 
 CREATE DATABASE test;
 ```
@@ -56,7 +63,7 @@ You can also re-start the client with the new `--database=test` argument.
 
 If you successfuly connected to the database, you will see the `test=>` prompt, in place of the previous one.
 
-## 3. Create a sample table
+## 4. Create a table
 ```sql
 CREATE OR REPLACE TABLE customers ( 
    id         int IDENTITY (1,1), 
@@ -71,7 +78,7 @@ Note:
 * You may not be familiar with the `IDENTITY` syntax. We're telling the database to start this column with the number 1, and increment 1 for every new value. This is similar to an autoincrement keyword in other databases.
 * The CSV we'll be loading in the rest of this tutorial, `customers.csv`, must match the table structure, including specific data types.
 
-## 4. Copy data into the table
+## 5. Copy data into the table
 
 Let's peek at the CSV file we'll be loading.
 ```bash
@@ -91,7 +98,7 @@ Before we load:
  COPY customers (first_name,last_name,email,gender,country,balance) FROM '/temp/customers.csv' WITH offset 2;
 ```
 
-## 5. Query the loaded data
+## 6. Query the loaded data
 ### Count table entries
 ```sql
 test=> SELECT count(*) from customers;
@@ -160,7 +167,7 @@ time: 0.289319s
 Note:
 * Using positional arguments to group by and sort helps brevity. `GROUP BY 1` is synonymous with `GROUP BY country`, while `ORDER BY 2` is synonymous with `ORDER BY avg_balance`
 
-## Monitor the SQream DB instance
+## 7. Monitor the SQream DB instance
 ### List open SQream DB connections
 ```sql
 test=> SELECT show_connections();
@@ -200,7 +207,7 @@ Column order:
 * Statement status
 * Statement status start
 
-## Clean up
+## 8. Clean up
 Once you're done with your test, drop the test database.
 
 1. Switch to the `master` database from the client: `\c master`
