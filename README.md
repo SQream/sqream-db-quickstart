@@ -5,12 +5,12 @@ This tutorial uses ClientCmd, the SQream DB command line client, to introduce ke
 * Querying
 * Basic monitoring
 
-Note: ClientCmd, the SQL client, is distrubted with SQream DB, so nothing extra is needed.
+Note: ClientCmd, the SQL client, is distributed with SQream DB, so no additional software is needed.
 
 ## Before you begin
-Make sure you have already installed SQream DB.
+Make sure you have an active SQream DB installation.
 
-The rest of this guide assumes you're running SQream DB listening on local port 5000
+The rest of this guide assumes you're running SQream DB listening on local port 5000.
 
 ## 1. Copy the CSV file to the SQream DB server
 Stage the file in a readable directory, like `/temp`.
@@ -29,7 +29,7 @@ Where:
 * `<password>` is the password for the SQream DB role
 * `<database>` is the database name. If this is your first time, select the built-in `master` database
 
-Note: If connecting to a different server than `localhost` and port `5000`, specify them using the `--host` and `--port` arguments. For example, `$ ClientCmd --host=192.168.0.11 --port=5112 ...`.
+Note: If connecting to a server not on `localhost:5000`, specify them using the `--host` and `--port` arguments. For example, `$ ClientCmd --host=192.168.0.11 --port=5112 ...`.
 
 You should see our interactive client and the connected database name.
 ```
@@ -61,7 +61,7 @@ Note: Each SQL statement must be terminated with a semicolon - <kbd>;</kbd>
 Now reconnect the client to this database. Use the meta-command `\c test`.
 You can also re-start the client with the new `--database=test` argument.
 
-If you successfuly connected to the database, you will see the `test=>` prompt, in place of the previous one.
+If you successfully connected to the database, you will see the `test=>` prompt in place of the previous one.
 
 ## 4. Create a table
 ```sql
@@ -91,7 +91,7 @@ Ruy,Sprey,rsprey3@webs.com,Male,Pakistan,1226.00
 ```
 
 Before we load:
-* We note that this CSV actually has one less column than we defined. So, we must tell the database to fill in the `id` column (identity column) by itself.
+* We note that this CSV actually has one less column than we defined, so we must tell the database to fill in the `id` column (identity column) by itself.
 * We also note that this CSV has a header. We'll have to tell the database to skip this line, or the types will mismatch!
 
 ```sql
@@ -207,7 +207,7 @@ Column order:
 * Statement status
 * Statement status start
 
-## 8. Clean up
+## 8. Clean-up
 Once you're done with your test, drop the test database.
 
 1. Switch to the `master` database from the client: `\c master`
@@ -223,12 +223,12 @@ SQream DB has a built in interactive client shell which allows running statement
 
 ### Data loading
 Data load is performed in two steps:
-1. Create a table, with schema that represents the files to be loaded into SQream DB
-2. Copy the data with the `COPY` command to the target table. 
+1. Create a table with a schema that represents the files to be loaded into SQream DB
+2. Copy the data with the `COPY` command to the target table
 
 Things to notice:
 * Some CSVs contain a header row, which should be explicitly skipped-over with the `OFFSET` keyword
-* Some CSVs have alternative delimiters. See the <a href="http://docs.sqream.com/latest/manual/sql_reference.html#_copy_from_bulk_import">COPY .. FROM</a> syntax for more information on loading TSVs and other formats.
+* Some CSVs have alternative delimiters. See the <a href="http://docs.sqream.com/latest/manual/sql_reference.html#_copy_from_bulk_import">COPY .. FROM</a> syntax for more information on loading TSVs and other formats
 * If the data doesn't match the destination table, SQream DB will fail the entire transaction
 
 ## What's next?
