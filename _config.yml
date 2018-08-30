@@ -1,1 +1,4 @@
 theme: jekyll-theme-cayman
+url: "http://sqream.github.io/sqream-db-quickstart"
+baseurl: "/sqream-db-quickstart"
+title: SQream DB Quickstart Guide
