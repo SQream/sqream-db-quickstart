@@ -1,4 +1,3 @@
-# SQream DB Quickstart
 This tutorial uses ClientCmd, the SQream DB command line client, to introduce key concepts and tasks, including:
 * Creating a database, creating tables
 * Loading CSV data into tables
